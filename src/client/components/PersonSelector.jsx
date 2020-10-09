@@ -53,6 +53,7 @@ const PersonSelector = ({
         styles={{
           control: (base) => ({
             ...base,
+            backgroundColor: '#F8F9FD',
             minWidth: '250px',
           }),
           valueContainer: (base) => ({

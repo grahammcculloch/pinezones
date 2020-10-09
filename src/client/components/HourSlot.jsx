@@ -6,22 +6,21 @@ import styled from 'styled-components';
 
 const Outer = styled(Flex)`
   position: relative;
-  background-color: ${({ current }) => (current ? '#e1ebf0' : 'transparent')};
+  background-color: ${({ theme, current }) => (current ? theme.colors.quartenary.main : 'transparent')};
 `;
 
 const ScoreBox = styled(Flex)`
-  border-top: 1px solid #95b3d7;
-  border-bottom: 1px solid #95b3d7;
-  color: ${({ score }) => (score === 1 ? '#fff' : '#789bc5')};
+  border-top: 1px solid ${({theme}) => theme.colors.gray.dark};
+  border-bottom: 1px solid ${({theme}) => theme.colors.gray.dark};
   background-color: ${({ score }) => {
     if (!score) {
-      return '#fffff3';
+      return '#ffebee';
     } else if (score === 1) {
-      return '#95b3d7';
+      return '#76ea7d';
     } else if (score === 2) {
-      return '#bcdaff';
+      return '#b0ecb2';
     }
-    return '#d5f6ff';
+    return '#cff4d1';
   }};
 `;
 

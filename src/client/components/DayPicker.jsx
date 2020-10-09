@@ -1,12 +1,12 @@
 import React from 'react';
 import keys from 'lodash/keys';
 import { Flex, ButtonGroup, Button } from 'rendition';
-import { DoW } from '../constants';
+import { DoW } from '../util';
 
 const DayPicker = ({ dayOfWeek, onChange }) => {
   return (
     <Flex
-      my={3}
+      my={4}
       flexDirection='row'
       flex={1}
       justifyContent='center'
