@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 /.pinejs-cache.json
+/import-data.js
+/pinezones.csv

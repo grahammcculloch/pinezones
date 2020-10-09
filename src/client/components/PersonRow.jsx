@@ -35,13 +35,13 @@ const PersonRow = ({
       setPerson(newPerson);
       axios.default
         .get(
-          `http://localhost:1337/working-hours/time_slot?$filter=person eq ${newPerson.id}&$select=day_of_the_week,slot_index,score`,
+          `${process.env.REACT_APP_API_URL}/person__is_available_for__slot_index__on__day_of_the_week?$filter=person eq ${newPerson.id}&$select=on__day_of_the_week,is_available_for__slot_index,score`,
         )
         .then((response) => {
           const newDaySlots = get(response, ['data', 'd']);
           if (newDaySlots) {
             const daySlotsByDay = newDaySlots.reduce((byDay, slot) => {
-              byDay[slot.day_of_the_week - 1][slot.slot_index] = slot.score;
+              byDay[slot.on__day_of_the_week - 1][slot.is_available_for__slot_index] = slot.score;
               return byDay;
             }, getDefaultDaySlots());
             setDaySlots(daySlotsByDay);
@@ -69,7 +69,11 @@ const PersonRow = ({
       <DaySlots
         timezoneOffset={person ? person.timezoneOffset : 0}
         localOffset={localOffset}
-        timezone={person ? person.timezone : Intl.DateTimeFormat().resolvedOptions().timeZone}
+        timezone={
+          person
+            ? person.timezone
+            : Intl.DateTimeFormat().resolvedOptions().timeZone
+        }
         slots={get(daySlots, dayOfWeek - 1, [])}
         dayOfWeek={dayOfWeek}
       />

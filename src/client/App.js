@@ -20,11 +20,11 @@ import DayPicker from './components/DayPicker';
 import PersonRow from './components/PersonRow';
 import { getTimezoneOffset } from './util';
 
-const GlobalStyle = createGlobalStyle `
+const GlobalStyle = createGlobalStyle`
   body {
     background-color: #F8F9FD;
   }
-`
+`;
 
 const DragHandleWrapper = styled(Box)`
   cursor: row-resize;
@@ -43,15 +43,12 @@ const DragHandle = sortableHandle(() => (
   </DragHandleWrapper>
 ));
 
-const SortableItem = sortableElement((props) => {
-  console.log('SortableItem', props);
-  return (
-    <Flex flexDirection='row' alignItems='center'>
-      {props.value}
-      <DragHandle />
-    </Flex>
-  );
-});
+const SortableItem = sortableElement(({ value }) => (
+  <Flex flexDirection='row' alignItems='center'>
+    {value}
+    <DragHandle />
+  </Flex>
+));
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <div>{children}</div>;
@@ -80,10 +77,12 @@ const App = () => {
     setPersons(arrayMove(persons, oldIndex, newIndex));
   };
 
+  console.log('REACT_APP_API_URL', process.env.REACT_APP_API_URL);
+
   React.useEffect(() => {
     axios.default
       .get(
-        'http://localhost:1337/working-hours/person?$orderby=name asc&$select=name,username,id,timezone',
+        `${process.env.REACT_APP_API_URL}/person?$orderby=name asc&$select=name,username,id,works_in__timezone`,
       )
       .then((response) => {
         const fetchedPeople = get(response, ['data', 'd']);
@@ -95,7 +94,8 @@ const App = () => {
             value: person.id,
             person: {
               ...person,
-              timezoneOffset: getTimezoneOffset(person.timezone),
+              timezone: person.works_in__timezone,
+              timezoneOffset: getTimezoneOffset(person.works_in__timezone),
             },
           }));
           setAllPeopleOptions(peopleOptions);

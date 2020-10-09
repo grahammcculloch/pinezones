@@ -51,8 +51,9 @@ const HourSlot = ({ tzDateTime, scores, isCurrent, dayOfWeek, ...rest }) => {
       alignItems='center'
       alignSelf='stretch'
     >
-      {scores.map((score) => (
+      {scores.map((score, index) => (
         <ScoreBox
+          key={index}
           width='15px'
           height='38px'
           score={score}
