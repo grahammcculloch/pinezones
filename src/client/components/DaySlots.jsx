@@ -2,23 +2,13 @@ import React from 'react';
 import get from 'lodash/get';
 import { Flex } from 'rendition';
 import HourSlot from './HourSlot';
-
-const numSlots = 48;
-
-const getTzDateTime = (timeZone, hour) => {
-  const dt = new Date()
-  dt.setHours(hour)
-  dt.setMinutes(0)
-  dt.setSeconds(0)
-  const tzTime = new Date(dt.toLocaleString('en-US', { timeZone }))
-  return tzTime
-}
+import { getTzDateTime, NUM_SLOTS } from '../util';
 
 const DaySlots = ({ timezoneOffset, localOffset, timezone, slots = {}, dayOfWeek }) => {
   const hourSlots = []
-  for(let slotIndex = 0; slotIndex < numSlots; slotIndex += 2) {
-    const offsetSlotIndex = (slotIndex + (timezoneOffset * 2) % numSlots + numSlots) % numSlots
-    const offsetSlotIndex2 = (slotIndex + (timezoneOffset * 2) + 1 % numSlots + numSlots) % numSlots
+  for(let slotIndex = 0; slotIndex < NUM_SLOTS; slotIndex += 2) {
+    const offsetSlotIndex = (slotIndex + (timezoneOffset * 2) % NUM_SLOTS + NUM_SLOTS) % NUM_SLOTS
+    const offsetSlotIndex2 = (slotIndex + (timezoneOffset * 2) + 1 % NUM_SLOTS + NUM_SLOTS) % NUM_SLOTS
     hourSlots.push({
       tzDateTime: getTzDateTime(timezone, Math.floor(slotIndex/2)),
       scores: [get(slots, [ offsetSlotIndex ], 0), get(slots, [ offsetSlotIndex2 ], 0)],
