@@ -6,12 +6,13 @@ import styled from 'styled-components';
 
 const Outer = styled(Flex)`
   position: relative;
-  background-color: ${({ theme, current }) => (current ? theme.colors.quartenary.main : 'transparent')};
+  background-color: ${({ theme, current }) =>
+    current ? theme.colors.quartenary.main : 'transparent'};
 `;
 
 const ScoreBox = styled(Flex)`
-  border-top: 1px solid ${({theme}) => theme.colors.gray.dark};
-  border-bottom: 1px solid ${({theme}) => theme.colors.gray.dark};
+  border-top: 1px solid ${({ theme }) => theme.colors.gray.dark};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray.dark};
   background-color: ${({ score }) => {
     if (!score) {
       return '#ffebee';
