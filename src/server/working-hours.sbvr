@@ -1,0 +1,53 @@
+Vocabulary: working-hours
+
+Term: person
+	Reference Scheme: username
+
+Term: username
+    Concept Type: Short Text (Type)
+
+Term: name
+    Concept Type: Short Text (Type)
+
+Term: timezone
+    Concept Type: Short Text (Type)
+
+Fact type: person has username
+	Necessity: Each person has exactly one username
+	Necessity: Each username is of exactly one person
+
+Fact Type: person has name
+	Necessity: Each person has exactly one name
+
+Fact Type: person has timezone
+  	Necessity: Each person has exactly one timezone
+    
+Term: time slot
+ 
+Term: day of the week
+    Concept Type: Integer (Type)
+ 
+Term: slot index
+    Concept Type: Integer (Type)
+
+Term: score
+    Concept Type: Integer (Type)
+
+Fact Type: time slot has day of the week
+    Necessity: Each time slot has exactly one day of the week
+    Definition: 1 or 2 or 3 or 4 or 5
+ 
+Fact Type: time slot has slot index
+    Necessity: Each time slot has exactly one slot index
+    Necessity: Each slot index is less than or equal to 23
+
+Fact Type: time slot has score
+    Necessity: Each time slot has exactly one score
+    Definition: 1 or 2 or 3
+
+Fact Type: time slot has person
+    Necessity: Each time slot has exactly one person
+
+-- TODO: person, day of the week and slot index must be unique
+
+-- Rule: It is necessary that each person that has a time slot1, has at most one time slot that has a slot index that is equal to a slot index of the time slot1 and has a day of the week that is equal to the day of the week of the time slot1

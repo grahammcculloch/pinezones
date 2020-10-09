@@ -3,19 +3,36 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
+    "@balena/pinejs": "^14.1.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.11",
+    "axios": "^0.20.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "date-fns": "^2.16.1",
+    "express": "^4.17.1",
+    "lodash": "^4.17.20",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "react-select": "^3.1.0",
+    "rendition": "^18.10.2",
+    "styled-components": "^5.2.0",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "csv-parser": "^2.3.3"
   },
   "scripts": {
+    "reset": "dropdb pinezones && createdb pinezones -O pinejsUser",
+    "start-server": "node src/server/index.js src",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "main": "src/client/index.js",
   "eslintConfig": {
     "extends": "react-app"
   },

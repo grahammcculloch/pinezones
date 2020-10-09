@@ -1,0 +1,18 @@
+{
+  "models": [
+    {
+      "modelName": "WorkingHours",
+      "modelFile": "src/server/working-hours.sbvr",
+      "apiRoot": "working-hours"
+    }
+  ],
+  "users": [
+    {
+      "username": "guest",
+      "password": " ",
+      "permissions": [
+        "resource.all"
+      ]
+    }
+  ]
+}
