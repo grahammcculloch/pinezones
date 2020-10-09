@@ -13,15 +13,17 @@ const DayPicker = ({ dayOfWeek, onChange }) => {
       alignItems='center'
     >
       <ButtonGroup>
-        {keys(DoW).slice(1, 6).map((index) => (
-          <Button
-            key={index}
-            active={dayOfWeek.toString() === index}
-            onClick={() => onChange(index)}
-          >
-            {DoW[index]}
-          </Button>
-        ))}
+        {keys(DoW)
+          .slice(1, 6)
+          .map((index) => (
+            <Button
+              key={index}
+              active={dayOfWeek.toString() === index}
+              onClick={() => onChange(index)}
+            >
+              {DoW[index]}
+            </Button>
+          ))}
       </ButtonGroup>
     </Flex>
   );

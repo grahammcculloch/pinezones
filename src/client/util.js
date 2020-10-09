@@ -12,19 +12,22 @@ export const DoW = {
   6: 'Sat'
 }
 
-export const getTimezoneOffset = (timeZone) => {
-  const localTime = new Date()
-  const tzTime = new Date(localTime.toLocaleString('en-US', { timeZone }))
-  const diffHours = differenceInMinutes(tzTime, localTime) / 60
-  const roundedDiffHours = Math.round(diffHours*2)/2
-  return `${roundedDiffHours > 0 ? '+' : ''}${roundedDiffHours}`
+const getTzDate = (date, timeZone) => {
+  return new Date(date.toLocaleString('en-US', { timeZone }))
 }
 
-export const getTzDateTime = (timeZone, hour) => {
-  const dt = new Date()
-  dt.setHours(hour)
-  dt.setMinutes(0)
-  dt.setSeconds(0)
-  const tzTime = new Date(dt.toLocaleString('en-US', { timeZone }))
-  return tzTime
+export const getTimezoneOffset = (timeZone) => {
+  const localTime = new Date()
+  const tzTime = getTzDate(localTime, timeZone)
+  const diffHours = differenceInMinutes(tzTime, localTime) / 60
+  const roundedDiffHours = Math.round(diffHours*2)/2
+  return roundedDiffHours > 0 ? `+${roundedDiffHours}` : roundedDiffHours
+}
+
+export const getTzDateTimeForHour = (timeZone, hour) => {
+  const localTime = new Date()
+  localTime.setHours(hour)
+  localTime.setMinutes(0)
+  localTime.setSeconds(0)
+  return getTzDate(localTime, timeZone)
 }

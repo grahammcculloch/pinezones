@@ -2,23 +2,52 @@ import React from 'react';
 import get from 'lodash/get';
 import { Flex } from 'rendition';
 import HourSlot from './HourSlot';
-import { getTzDateTime, NUM_SLOTS } from '../util';
+import { getTzDateTimeForHour, NUM_SLOTS } from '../util';
 
-const DaySlots = ({ timezoneOffset, localOffset, timezone, slots = {}, dayOfWeek }) => {
-  const hourSlots = []
-  for(let slotIndex = 0; slotIndex < NUM_SLOTS; slotIndex += 2) {
-    const offsetSlotIndex = (slotIndex + (timezoneOffset * 2) % NUM_SLOTS + NUM_SLOTS) % NUM_SLOTS
-    const offsetSlotIndex2 = (slotIndex + (timezoneOffset * 2) + 1 % NUM_SLOTS + NUM_SLOTS) % NUM_SLOTS
+const circularIndex = (index, n) => ((index % n) + n) % n;
+
+const DaySlots = ({
+  timezoneOffset,
+  localOffset,
+  timezone,
+  slots = {},
+  dayOfWeek,
+}) => {
+  const hourSlots = [];
+  const slotTimezoneOffset = Math.floor(timezoneOffset * 2);
+
+  // Convert the half-hour slots into hour slots
+  for (let slotIndex = 0; slotIndex < NUM_SLOTS; slotIndex += 2) {
+    const offsetSlotIndex = circularIndex(
+      slotIndex + slotTimezoneOffset,
+      NUM_SLOTS,
+    );
+    const offsetSlotIndex2 = circularIndex(
+      slotIndex + slotTimezoneOffset + 1,
+      NUM_SLOTS,
+    );
+    const hourSlotIndex = Math.floor(slotIndex / 2);
     hourSlots.push({
-      tzDateTime: getTzDateTime(timezone, Math.floor(slotIndex/2)),
-      scores: [get(slots, [ offsetSlotIndex ], 0), get(slots, [ offsetSlotIndex2 ], 0)],
-    })
+      tzDateTime: getTzDateTimeForHour(timezone, hourSlotIndex),
+      scores: [
+        get(slots, [offsetSlotIndex], 0),
+        get(slots, [offsetSlotIndex2], 0),
+      ],
+    });
   }
+
   return (
-    <Flex flexDirection="row" alignItems="center" alignSelf="stretch">
+    <Flex flexDirection='row' alignItems='center' alignSelf='stretch'>
       {hourSlots.map((_, index) => {
-        const hourSlot = hourSlots[((index + localOffset + 1) % 24 + 24) % 24]
-        return <HourSlot isCurrent={index === 11} key={hourSlot.tzDateTime} dayOfWeek={dayOfWeek} {...hourSlot} />;
+        const hourSlot = hourSlots[circularIndex(index + localOffset + 1, 24)];
+        return (
+          <HourSlot
+            isCurrent={index === 11}
+            key={hourSlot.tzDateTime}
+            dayOfWeek={dayOfWeek}
+            {...hourSlot}
+          />
+        );
       })}
     </Flex>
   );

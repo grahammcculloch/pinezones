@@ -1,17 +1,14 @@
 import React from 'react';
 import get from 'lodash/get';
-import axios from 'axios';
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Flex, Button } from 'rendition';
 import PersonSelector from './PersonSelector';
 import DaySlots from './DaySlots';
+import api, { getDefaultDaySlots } from '../api';
 
-const getDefaultDaySlots = () => [{}, {}, {}, {}, {}];
-
-const PersonRow = ({
+const PersonListItem = ({
   localOffset,
-  now,
   id,
   allPeopleOptions,
   dayOfWeek,
@@ -33,20 +30,7 @@ const PersonRow = ({
         onPersonSelected(id);
       }
       setPerson(newPerson);
-      axios.default
-        .get(
-          `${process.env.REACT_APP_API_URL}/person__is_available_for__slot_index__on__day_of_the_week?$filter=person eq ${newPerson.id}&$select=on__day_of_the_week,is_available_for__slot_index,score`,
-        )
-        .then((response) => {
-          const newDaySlots = get(response, ['data', 'd']);
-          if (newDaySlots) {
-            const daySlotsByDay = newDaySlots.reduce((byDay, slot) => {
-              byDay[slot.on__day_of_the_week - 1][slot.is_available_for__slot_index] = slot.score;
-              return byDay;
-            }, getDefaultDaySlots());
-            setDaySlots(daySlotsByDay);
-          }
-        });
+      api.getTimeSlotsByDay(newPerson.id).then(setDaySlots);
     },
     [person, id, onPersonSelected],
   );
@@ -81,4 +65,4 @@ const PersonRow = ({
   );
 };
 
-export default PersonRow;
+export default PersonListItem;

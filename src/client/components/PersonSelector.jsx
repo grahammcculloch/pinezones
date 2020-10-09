@@ -5,23 +5,25 @@ import memoize from 'lodash/memoize';
 import { Box, Flex, Txt } from 'rendition';
 import Select from 'react-select';
 
-const SingleLine = styled(Txt) `
+const SingleLine = styled(Txt)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`
+`;
 
 const formatPerson = (option) => {
   return (
-    <Flex flexDirection="column">
+    <Flex flexDirection='column'>
       <SingleLine bold>{option.label}</SingleLine>
       <SingleLine>
-        <Txt.span color="text.light">{option.person.timezoneOffset}</Txt.span>
-        <Txt.span ml={2} color="text.light" italic>{option.person.timezone}</Txt.span>
+        <Txt.span color='text.light'>{option.person.timezoneOffset}</Txt.span>
+        <Txt.span ml={2} color='text.light' italic>
+          {option.person.timezone}
+        </Txt.span>
       </SingleLine>
     </Flex>
-  )
-}
+  );
+};
 
 const PersonSelector = ({
   allPeopleOptions,
@@ -45,7 +47,7 @@ const PersonSelector = ({
   return (
     <Box my={2} {...rest}>
       <Select
-        placeholder="Select team member..."
+        placeholder='Select team member...'
         value={getPersonOption(person)}
         formatOptionLabel={formatPerson}
         options={allPeopleOptions}
@@ -58,8 +60,8 @@ const PersonSelector = ({
           }),
           valueContainer: (base) => ({
             ...base,
-            minHeight: '58px'
-          })
+            minHeight: '58px',
+          }),
         }}
       />
     </Box>
